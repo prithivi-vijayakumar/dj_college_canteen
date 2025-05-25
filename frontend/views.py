@@ -34,9 +34,11 @@ def home(request):
     category_name = request.GET.get('category')  # e.g., "Women"
     if category_name:
         category = get_object_or_404(Category, name=category_name)
+        products = category.products.all()  # Assuming related_name='products' in ForeignKey
 
         data['category_present'] = True
         data['page_title'] = category.name
+        data['products'] = products
         data['categories'] = categories
 
         for cat in categories:
