@@ -259,6 +259,8 @@ def place_order(request):
         order_status='PENDING'
     )
 
+    contains_lunch = False  # Flag to check for Lunch category
+
     # Create order items
     for item in cart_items:
         product = item.product
