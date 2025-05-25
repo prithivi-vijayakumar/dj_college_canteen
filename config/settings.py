@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-x5_op$b=*l8su$)0^qyj1)x_#kcr5d56nqt207zpg37qz^qx!i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'dj-college-canteen.onrender.com'
+]
 
 
 # Application definition
