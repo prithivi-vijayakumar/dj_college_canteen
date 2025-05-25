@@ -286,7 +286,7 @@ def place_order(request):
     # )
 
     messages.success(request, f"Order #{order.order_number} placed successfully!")
-    # return redirect('home')  # Redirect to a success page or order summary
+    return redirect('home')  # Redirect to a success page or order summary
 
     # Return success response
-    return JsonResponse({'success': True})
+    # return JsonResponse({'success': True})
