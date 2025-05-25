@@ -292,7 +292,7 @@ def place_order(request):
     )
 
     # Add each item to the message
-    for item in order.orderitem_set.all():
+    for item in order.order_items.all():
         product_name = item.product.name[:28] + '..' if len(item.product.name) > 30 else item.product.name
         message += f"{product_name:30} {item.qty:>5} ₹{item.unit_price:>9.2f} ₹{item.amount:>9.2f}\n"
 
