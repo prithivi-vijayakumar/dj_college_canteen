@@ -280,21 +280,31 @@ def place_order(request):
     cart_items.delete()
 
     # Send confirmation email
+    # Construct the confirmation email
     subject = f"Order Confirmation - {order.order_number}"
     message = (
         f"Dear {user.first_name},\n\n"
         f"Thank you for your order #{order.order_number}.\n"
-        f"Total Amount: ₹{order.total_amount}\n\n"
-        f"We will notify you once your order is shipped.\n\n"
-        f"Best regards,\n"
-        f"Your Company Name"
+        f"Total Amount: ₹{order.total_amount:.2f}\n\n"
+        f"Order Details:\n"
+        f"{'Product':30} {'Qty':>5} {'Price':>10} {'Amount':>10}\n"
+        f"{'-' * 60}\n"
     )
 
-    if contains_lunch:
-        message += "Please collect your lunch at 12:55 PM.\n\n"
+    # Add each item to the message
+    for item in order.orderitem_set.all():
+        product_name = item.product.name[:28] + '..' if len(item.product.name) > 30 else item.product.name
+        message += f"{product_name:30} {item.qty:>5} ₹{item.unit_price:>9.2f} ₹{item.amount:>9.2f}\n"
 
+    message += f"\nTotal Amount: ₹{order.total_amount:.2f}\n"
+
+    # Add Lunch collection message if needed
+    if contains_lunch:
+        message += "\nPlease collect your lunch at 12:55 PM.\n"
+
+    # Closing message
     message += (
-        "We will notify you once your order is shipped.\n\n"
+        "\nWe will notify you once your order is shipped.\n\n"
         "Best regards,\n"
         "Your Company Name"
     )
