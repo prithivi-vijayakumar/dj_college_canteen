@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-x5_op$b=*l8su$)0^qyj1)x_#kcr5d56nqt207zpg37qz^qx!i
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    '127.0.0.1:8000',
     'dj-college-canteen.onrender.com'
 ]
 
