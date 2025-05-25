@@ -147,3 +147,27 @@ MEDIA_URL = 'media/'
 CSRF_TRUSTED_ORIGINS = [
     'https://dj-college-canteen.onrender.com',
 ]
+
+# URL for the login page
+LOGIN_URL = '/login'  # Adjust to match your URL pattern
+
+# URL to redirect to after login (optional)
+LOGIN_REDIRECT_URL = '/'  # Change this to where you want users to go after logging in
+
+# URL to redirect to after logout (optional)
+LOGOUT_REDIRECT_URL = '/'  # Change this to where you want users to go after logging out
+
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
+
+EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
