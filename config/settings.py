@@ -144,5 +144,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = 'media/'
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://dj-big-shop-1.onrender.com',
+    'https://dj-college-canteen.onrender.com',
 ]
