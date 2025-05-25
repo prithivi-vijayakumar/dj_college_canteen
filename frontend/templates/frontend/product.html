@@ -6,30 +6,27 @@
 
 {% block content %}
 <div class="container mt-4">
-  <h2>{{ page_title }} Products</h2>
+  <h2>{{ page_title }}</h2>
 
-  {% for category in categories %}
-    {% if category.products.all %}
-      <h4 class="mt-4">{{ category.name }}</h4>
-      <div class="row">
-        {% for item in category.products.all %}
-          <div class="col-md-4">
-            <div class="card mb-3">
-              {% if item.image_path %}
-                <img src="{{ item.image_path.url }}" class="card-img-top" alt="{{ item.name }}">
-              {% endif %}
-              <div class="card-body">
-                <h5 class="card-title">{{ item.name }}</h5>
-                <p class="card-text">₹{{ item.price }}</p>
-                <a href="{% url 'add_to_cart' item.id %}" class="btn btn-primary">Add to Cart</a>
-              </div>
+  {% if products %}
+    <div class="row">
+      {% for item in products %}
+        <div class="col-md-4">
+          <div class="card mb-3">
+            {% if item.image_path %}
+              <img src="{{ item.image_path.url }}" class="card-img-top" alt="{{ item.name }}">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ item.name }}</h5>
+              <p class="card-text">₹{{ item.price }}</p>
+              <a href="{% url 'add_to_cart' item.id %}" class="btn btn-primary">Add to Cart</a>
             </div>
           </div>
-        {% endfor %}
-      </div>
-    {% endif %}
-  {% empty %}
-    <p>No categories available.</p>
-  {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No products available in this category.</p>
+  {% endif %}
 </div>
 {% endblock %}
