@@ -1,12 +1,16 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404, redirect
 
 from backend.models import Cart, CustomUser, Gender, Category, Product, Order, OrderItem
 
 from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
+
+from config import settings
+
 
 # Create your views here.
 def home(request):
@@ -257,13 +261,17 @@ def place_order(request):
 
     # Create order items
     for item in cart_items:
+        product = item.product
+        if product.category.name.lower() == 'lunch':
+            contains_lunch = True
+
         OrderItem.objects.create(
             order=order,
-            product=item.product,
+            product=product,
             qty=item.qty,
-            unit_price=item.product.price,
-            amount=item.product.price * item.qty,
-            discount=0  # Adjust if you have discount logic
+            unit_price=product.price,
+            amount=product.price * item.qty,
+            discount=0  # Modify if needed
         )
 
     # Clear the cart
@@ -279,13 +287,23 @@ def place_order(request):
         f"Best regards,\n"
         f"Your Company Name"
     )
-    # send_mail(
-    #     subject,
-    #     message,
-    #     settings.DEFAULT_FROM_EMAIL,
-    #     [user.email],
-    #     fail_silently=False,
-    # )
+
+    if contains_lunch:
+        message += "Please collect your lunch at 12:55 PM.\n\n"
+
+    message += (
+        "We will notify you once your order is shipped.\n\n"
+        "Best regards,\n"
+        "Your Company Name"
+    )
+
+    send_mail(
+        subject,
+        message,
+        settings.DEFAULT_FROM_EMAIL,
+        [user.email],
+        fail_silently=False,
+    )
 
     messages.success(request, f"Order #{order.order_number} placed successfully!")
     return redirect('home')  # Redirect to a success page or order summary
